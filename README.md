@@ -1,11 +1,11 @@
-# DSAN 6000 Homework 3: Map Reduce for Parallel Processing
+# DSAN 6000 Homework 4: Working With Columnar Data in DuckDB
 
-**Due Friday, September 25, 5:59pm EDT**
+**Due Friday, October 2, 11:59pm EDT**
 
 > [!WARNING]
-> If you have cloned the repository **template** from the `https://github.com/jpowerj/dsan6000-hw03-parallel-processing` URL, you are **not starting the assignment correctly!** That is, if the command you used to clone the repo onto EC2 looks like:
+> If you have cloned the repository **template** from the `https://github.com/jpowerj/dsan6000-hw04` URL, you are **not starting the assignment correctly!** That is, if the command you used to clone the repo onto EC2 looks like:
 > 
-> `git clone https://github.com/jpowerj/dsan6000-hw03-parallel-processing`
+> `git clone https://github.com/jpowerj/dsan6000-hw04`
 > 
 > This will **not work** for assignments in this course, since you **will not be able to push your changes** back to this repository! (Notice how the above code purposefully has *no copy button!*) Instead, you need to create your **own *private* version of the template** (shared with instructors only), as described in the next section.
 
@@ -79,9 +79,7 @@ Note that this and other `git` commands interacting with your GitHub repository 
 
 To create this Access Token, **follow the instructions [here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic)**: you can just check off all permissions (since this is a case of you "granting" permissions to yourself – you would need to worry about specific permissions if you were granting access to a coworker on a project, for example!), and you don't need to choose an expiration date for this Access Token (though you can for extra account security).
 
-## HW3 Task: Utilizing `joblib` and `MRJob` to Process Data in Parallel
-
-Now that you are set up on EC2 (after completing HW1), and now that you have connected to your EC2 instance to develop in Python using Jupyter notebooks (after completing HW2), the workflow for homeworks from now onwards should now feel more familiar! Setting up your `uv` environment for this homework works the same as the previous homework, with `hw03` replacing `hw02`:
+## HW4 Task
 
 > [!NOTE]
 > ### Setting Up `uv`
@@ -129,7 +127,7 @@ The remaining instructions are given in two notebooks:
 * In `DSAN6000_HW3A.ipynb` you will use `joblib` to handle distributing the subtasks of an "embarrassingly-parallel" problem to the cores of your EC2 instance
 * In `DSAN6000_HW3B.ipynb` you will use `MRJob` to **"factor"** a *non-*embarrassingly-parallel problem into a series of embarrassingly-parallel subtasks, distribute these subtasks to the cores of your EC2 instance, and then **re-combine** the subtask results into a solution to the original problem.
 
-## HW3 Submission
+## HW4 Submission
 
 Since you submitted your GitHub URL all the way up at the top of the instructions, all that is left is for you to **push your work from EC2 to GitHub**. If you push a commit with the commit message **"Final submission"** (by running `git commit -m "Final submission"` and then `git push`), we will consider your repo ready to grade – otherwise, if no commit with this message is found, we will consider the **most recent commit when the due date is reached** to be your final submission.
 
