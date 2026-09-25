@@ -13,7 +13,7 @@
 
 Click the **green "Use this template" button** in the upper-right corner of the template repo on GitHub, then choose the "Create a new repository" option. On the next page, you will be able to create a **new repository** in **your own GitHub account**. Follow these steps to set up your new private repository:
 
-1.  Within the **"1. General"** section, call it **`dsan6000-hw03-parallel-processing`** (the same name as the template), and
+1.  Within the **"1. General"** section, call it **`dsan6000-hw04`** (the same name as the template), and
 1.  Within the **"2. Configuration"** section, choose **Private**
 1.  Click the green **Create Repository** button
 1.  Once the repository has been created, open the **Settings** page linked at the top of the GitHub interface
@@ -72,17 +72,21 @@ Once this **derived** private repository has been set up on **your GitHub accoun
 Then, once you have submitted the URL on Canvas, **clone *your* newly-created repository (*not* the template owned by `jpowerj`) to your EC2 instance to begin working!** In other words, the command you run on EC2 should look as follows (with your GitHub username in place of `YOUR_GH_USERNAME`):
 
 ```bash
-git clone https://github.com/YOUR_GH_USERNAME/dsan6000-hw03-parallel-processing
+git clone https://github.com/YOUR_GH_USERNAME/dsan6000-hw04
 ```
 
 Note that this and other `git` commands interacting with your GitHub repository will likely require you to use a GitHub **Access Token** in place of your password (despite the fact that `git` will ask you for your password, the password you use to log into your GitHub account in your browser typically will *not* work within the `git` command-line interface).
 
 To create this Access Token, **follow the instructions [here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic)**: you can just check off all permissions (since this is a case of you "granting" permissions to yourself – you would need to worry about specific permissions if you were granting access to a coworker on a project, for example!), and you don't need to choose an expiration date for this Access Token (though you can for extra account security).
 
-## HW4 Task
+## HW4 Task: Optimizing Queries on ACLED (Armed Conflict Location and Event Data) Events
+
+For this assignment you will be working with a dataset that Jeff has contributed to at some point in the past, the full set of publicly-available [ACLED events](https://acleddata.com/) spanning from January 1, 1997 to September 2, 2025<a name='fn1loc'></a><sup>[1](#fn1)</sup>.
+
+This dataset was chosen for this assignment because it helps illustrate the **OnLine Analytics Processing (OLAP) "stage"** that we're moving towards in this second unit of the course: although the event information recorded in this dataset may stream **into** ACLED's database row-by-row, when it comes time to **analyze** it
 
 > [!NOTE]
-> ### Setting Up `uv`
+> ### Setting Up Your `uv` Environment
 > 
 > In this class, to ensure that the Python libraries necessary for each assignment are installed on your EC2 instance, we will be using the [`uv` package manager](https://docs.astral.sh/uv/). Setting up `uv` and then activating the environment works as follows:
 > 
@@ -91,22 +95,22 @@ To create this Access Token, **follow the instructions [here](https://docs.githu
 >     ```bash
 >     curl -LsSf https://astral.sh/uv/install.sh | sh
 >     ```
-> 2.  Now, within the cloned homework directory, just type `uv sync`, and `uv` will create a new Python environment (within a subdirectory it will create, called `.venv`) where all libraries necessary for this assignment are automatically installed.
-> 3.  Once the `uv sync` command has finished running, activate the created environment by executing
+> 2.  With `uv` installed, within the cloned homework directory, just type `uv sync`, and `uv` will create a new Python environment (within a subdirectory it will create, called `.venv`) where all libraries necessary for this assignment are automatically installed.
+> 3.  Once the `uv sync` command has finished running, **activate** the created environment by executing
 > 
 >     ```
 >     source .venv/bin/activate`
 >     ```
-> 4. If the environment was activated successfully, the command prompt in VSCode's Integrated Terminal should now have a `(dsan6000-hw03)` prefix. That is, the prompt should look like:
+> 4. If the environment was activated successfully, the command prompt in VSCode's Integrated Terminal should now have a `(dsan6000-hw04)` prefix. That is, the prompt should look like:
 > 
 >     ```bash
->     (dsan6000-hw03) ubuntu@ip-172-31-78-63:~/dsan6000-hw03$ 
+>     (dsan6000-hw04) ubuntu@ip-172-31-78-63:~/dsan6000-hw04$ 
 >     ```
 >     
 >     Instead of
 >     
 >     ```
->     ubuntu@ip-172-31-78-63:~/dsan6000-hw03$ 
+>     ubuntu@ip-172-31-78-63:~/dsan6000-hw04$ 
 >     ```
 > 
 > 5.  What we've done thus far means that you could now run "plain" `.py` files, and the necessary libraries would be ready for use. However, since we want to utilize **Jupyter notebooks** to write our code, we need to register this environment as a **kernel** that Jupyter can use to execute the code you write within Jupyter notebook code cells. To achieve this, we'll need the `ipykernel` library, which you should now install within your `uv` environment by executing the following command:
@@ -118,14 +122,14 @@ To create this Access Token, **follow the instructions [here](https://docs.githu
 > 6.  Once `ipykernel` has been installed within your `uv` environment, the final step is to **register** this `uv` environment with Jupyter, so that it can be chosen as your desired environment within Jupyter (rather than the default "base" Python environment). To achieve this, execute the following command:
 > 
 >     ```bash
->     python -m ipykernel install --user --name=hw03-kernel
+>     python -m ipykernel install --user --name=hw04-kernel
 >     ```
 > 7. Once this command has executed successfully, your assignment-specific `uv` environment is now ready for use as a Jupyter kernel! Unfortunately, the only way to get VSCode to detect this new kernel (so that it appears as an option when you choose the kernel for a Jupyter notebook) is by reloading VSCode. But, rather than closing the window and reconnecting, there's an easier approach! Oen the VSCode **Command Palette** using `Ctrl+Shift+P`, then start typing "Reload". You should see the full set of commands filter as you type, leaving the option **"Developer: Reload Window"** near the top. Click this command and your window should reload in the same state, but now with your kernel detected by VSCode.
 
 The remaining instructions are given in two notebooks:
 
-* In `DSAN6000_HW3A.ipynb` you will use `joblib` to handle distributing the subtasks of an "embarrassingly-parallel" problem to the cores of your EC2 instance
-* In `DSAN6000_HW3B.ipynb` you will use `MRJob` to **"factor"** a *non-*embarrassingly-parallel problem into a series of embarrassingly-parallel subtasks, distribute these subtasks to the cores of your EC2 instance, and then **re-combine** the subtask results into a solution to the original problem.
+* In `DSAN6000_HW4A.ipynb` you will get your first hands-on experience with the **internals** of the `.parquet` columnar data storage format, especially its use of **Run-Length Encoding (RLE) compression** for massive file-size reduction.
+* In `DSAN6000_HW4B.ipynb` you will then **take advantage of** these `.parquet` enhancements (relative to `.csv`), by querying a `.parquet` file *directly* from within an S3 bucket, loading only the data needed to execute the query (a massive improvement over the necessity, with `.csv` files, to load the entire file before issuing queries).
 
 ## HW4 Submission
 
@@ -133,4 +137,8 @@ Since you submitted your GitHub URL all the way up at the top of the instruction
 
 ---
 
-Assignment hash (SHA-256): `264698182a8abe8f4b6a89f898c9021055665e930cea90c338b9d986fe61445a`
+<a name="fn1">1</a>. ACLED's publicly-available event database uses a 1-year "lag", for data quality purposes: additional information about a given event often becomes available in the days/weeks after its occurrence, so, ACLED "finalizes" its record of a given event after a year. Since I queried their database on September 2, 2026, the events up to and including September 2, 2025 were returned. [↩︎](#fn1loc)
+
+---
+
+Assignment hash (SHA-256): `b9f234b6519459d1c4ed906e6882015471e3e342d590532ff0a1af7b88526d2a`
