@@ -81,7 +81,7 @@ To create this Access Token, **follow the instructions [here](https://docs.githu
 
 ## HW4 Task: Optimizing Queries on ACLED (Armed Conflict Location and Event Data) Events
 
-For this assignment you will be working with a dataset that Jeff has contributed to at some point in the past, the full set of publicly-available [ACLED events](https://acleddata.com/) spanning from January 1, 1997 to September 2, 2025<a name='fn1loc'></a><sup>[1](#fn1)</sup>.
+For this assignment you will be working with a dataset (that Jeff contributed to at some point long ago!), the full set of publicly-available [ACLED events](https://acleddata.com/) involving civilian casualties, spanning from January 1, 1997 to September 26, 2025<a name='fn1loc'></a><sup>[1](#fn1)</sup>.
 
 This dataset was chosen for this assignment because it helps illustrate the **OnLine Analytics Processing (OLAP) "stage"** that we're moving towards in this second unit of the course: although the event information recorded in this dataset may stream **into** ACLED's database row-by-row, when it comes time to **analyze** it
 
@@ -137,7 +137,7 @@ Since you submitted your GitHub URL all the way up at the top of the instruction
 
 ---
 
-<a name="fn1">1</a>. ACLED's publicly-available event database uses a 1-year "lag", for data quality purposes: additional information about a given event often becomes available in the days/weeks after its occurrence, so, ACLED "finalizes" its record of a given event after a year. Since I queried their database on September 2, 2026, the events up to and including September 2, 2025 were returned. [↩︎](#fn1loc)
+<a name="fn1">1</a>. ACLED's publicly-available event database uses a 1-year "lag", for data quality purposes: additional information about a given event often becomes available in the days/weeks after its occurrence, so, ACLED finalizes its record of a given event after a year. Since I queried their database on September 26, 2026, the events up to and including September 26, 2025 were returned. [↩︎](#fn1loc)
 
 ---
 
