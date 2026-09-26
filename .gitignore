@@ -5,9 +5,3 @@
 data/*.parquet
 *.pkl
 data/*.pkl
-A_small.txt
-data/A_small.txt
-A_large.txt
-data/A_large.txt
-result_small.txt
-data/result_small.txt
