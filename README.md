@@ -126,10 +126,9 @@ This dataset was chosen for this assignment because it helps illustrate the **On
 >     ```
 > 7. Once this command has executed successfully, your assignment-specific `uv` environment is now ready for use as a Jupyter kernel! Unfortunately, the only way to get VSCode to detect this new kernel (so that it appears as an option when you choose the kernel for a Jupyter notebook) is by reloading VSCode. But, rather than closing the window and reconnecting, there's an easier approach! Oen the VSCode **Command Palette** using `Ctrl+Shift+P`, then start typing "Reload". You should see the full set of commands filter as you type, leaving the option **"Developer: Reload Window"** near the top. Click this command and your window should reload in the same state, but now with your kernel detected by VSCode.
 
-The remaining instructions are given in two notebooks:
+The remaining instructions are given in a single Jupyter notebook:
 
-* In `DSAN6000_HW4A.ipynb` you will get your first hands-on experience with the **internals** of the `.parquet` columnar data storage format, especially its use of **Run-Length Encoding (RLE) compression** for massive file-size reduction.
-* In `DSAN6000_HW4B.ipynb` you will then **take advantage of** these `.parquet` enhancements (relative to `.csv`), by querying a `.parquet` file *directly* from within an S3 bucket, loading only the data needed to execute the query (a massive improvement over the necessity, with `.csv` files, to load the entire file before issuing queries).
+* In `DSAN6000_HW4.ipynb` you will get your first hands-on experience with the **internals** of the `.parquet` columnar data storage format, especially its use of **Run-Length Encoding (RLE) compression** for massive file-size reduction. Then you will **take advantage of** these `.parquet` enhancements (relative to `.csv`), by querying a `.parquet` file *directly* from within an S3 bucket, loading only the data needed to execute the query (a massive improvement over the necessity, with `.csv` files, to load the entire file before issuing queries).
 
 ## HW4 Submission
 
